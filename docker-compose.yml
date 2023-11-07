@@ -1,0 +1,30 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  
+  db:
+    image: postgres
+    build: ./db
+    container_name: db
+    environment:
+      POSTGRES_USER: author
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blogs
+    volumes:
+      - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
