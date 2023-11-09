@@ -4,14 +4,9 @@ import Footer from './partials/Footer';
 
 function App() {
     const [data, setData] = useState('');
-    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         fetchData();
-        fetch('http://localhost:8000/users')
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error(error));
     }, []);
 
     const fetchData = async () => {
@@ -31,14 +26,6 @@ function App() {
     return (
         <div>
             <RoutesComponent />
-            <h1>Users</h1>
-                <ul>
-                    {users.map(user => (
-                        <li key={user.id}>
-                            {user.username} - {user.email}
-                        </li>
-                    ))}
-                </ul>
             <Footer />
         </div>
     );
