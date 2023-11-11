@@ -28,3 +28,12 @@ services:
       - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
+  
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - frontend
