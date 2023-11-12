@@ -17,7 +17,7 @@ app.get("/", function(req, res, next) {
     res.send("Hello, world!");
 });
 
-app.get('/users', async (req, res) => {
+app.get('/api/users', async (req, res) => {
     try {
         const client = await pool.connect();
         console.log('Connected to PostgreSQL!');
