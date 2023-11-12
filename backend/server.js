@@ -3,7 +3,16 @@ var { Pool } = require("pg");
 var cors = require("cors");
 
 var app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可するHTTPメソッド
+    credentials: true, // クッキーなどの認証情報をやりとりするかどうか
+    optionsSuccessStatus: 204, // プリフライトリクエスト（OPTIONSメソッド）の成功時のステータスコード
+    allowedHeaders: 'Content-Type,Authorization', // 許可するヘッダー
+};
+
+app.use(cors(corsOptions));
 
 const pool = new Pool({
     user: 'author',
@@ -17,7 +26,7 @@ app.get("/", function(req, res, next) {
     res.send("Hello, world!");
 });
 
-app.get('/api/users', async (req, res) => {
+app.get('/users', async (req, res) => {
     try {
         const client = await pool.connect();
         console.log('Connected to PostgreSQL!');
@@ -29,7 +38,7 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-app.get('/api/data', (req, res) => {
+app.get('/data', (req, res) => {
     const responseData = 'This is the data from the backend!';
     res.json(responseData);
 });

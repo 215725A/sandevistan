@@ -11,7 +11,7 @@ function Blog() {
 
     const fetchDB = async () => {
         try {
-            const response = await fetch('http://sandevistan.st.ie.u-ryukyu.ac.jp/users');
+            const response = await fetch('http://sandevistan.st.ie.u-ryukyu.ac.jp/api/users');
             if (response.ok) {
                 const result = await response.json();
                 setUsers(result);
