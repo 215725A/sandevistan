@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
+import ReadCSV from './contents/Readcsv';
 
 function RoutesComponent() {
     return (
@@ -26,6 +27,9 @@ function RoutesComponent() {
                                 <li className="nav-item">
                                     <Link to="/blog" className="nav-link">Blog</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link to="/csv" className="nav-link">CSVTest</Link>
+                                </li>
                             </ul>
                             <form className="d-flex" role="search">
                                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -39,6 +43,7 @@ function RoutesComponent() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
+                    <Route path="/csv" element={<ReadCSV />} />
                 </Routes>
             </div>
         </Router>

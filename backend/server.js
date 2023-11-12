@@ -1,6 +1,7 @@
 var express = require("express");
 var { Pool } = require("pg");
 var cors = require("cors");
+var fs = require("fs");
 
 var app = express();
 
@@ -41,6 +42,12 @@ app.get('/users', async (req, res) => {
 app.get('/data', (req, res) => {
     const responseData = 'This is the data from the backend!';
     res.json(responseData);
+});
+
+app.get('/csv', (req, res) => {
+    const csvPath = '/usr/app/csv/utf_add_2310.csv';
+    const csvContent = fs.readFileSync(csvPath, 'utf-8');
+    res.send(csvContent);
 });
 
 const PORT = process.env.PORT || 8000;
