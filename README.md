@@ -12,7 +12,7 @@ Dockerの構成
 1. `git clone git@github.com:215725A/sandevistan.git` or  
    `git clone https://github.com/215725A/sandevistan.git`
 2. `cd sandevistan`
-3. `docker-compose up -d`
+3. `docker-compose up --build -d`
 
 ※このプロジェクトはVM上で動くことを想定しています。
 この作業をした後に、`vmのipアドレス`にアクセスすると見れると思う。
