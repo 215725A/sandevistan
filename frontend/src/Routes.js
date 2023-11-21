@@ -5,6 +5,7 @@ import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
 import ReadCSV from './contents/Readcsv';
+import Classes from './contents/Classes';
 
 function RoutesComponent() {
     return (
@@ -28,6 +29,9 @@ function RoutesComponent() {
                                     <Link to="/blog" className="nav-link">Blog</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link to="/classes" className="nav-link">Classes</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link to="/csv" className="nav-link">CSVTest</Link>
                                 </li>
                             </ul>
@@ -44,6 +48,7 @@ function RoutesComponent() {
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<ReadCSV />} />
+                    <Route path="/classes" element={<Classes />} />
                 </Routes>
             </div>
         </Router>
