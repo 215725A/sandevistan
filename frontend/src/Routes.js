@@ -5,6 +5,7 @@ import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
 import ReadCSV from './contents/Readcsv';
+import Image_processing from './contents/Image_processing';
 
 function RoutesComponent() {
     return (
@@ -20,6 +21,7 @@ function RoutesComponent() {
                             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                                 <li className="nav-item">
                                     <Link to="/" className="nav-link active" aria-current="page">Home</Link>
+
                                 </li>
                                 <li className="nav-item">
                                     <Link to="/about" className="nav-link">About</Link>
@@ -30,6 +32,9 @@ function RoutesComponent() {
                                 <li className="nav-item">
                                     <Link to="/csv" className="nav-link">CSVTest</Link>
                                 </li>
+
+                                
+
                             </ul>
                             <form className="d-flex" role="search">
                                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -44,6 +49,7 @@ function RoutesComponent() {
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<ReadCSV />} />
+                    <Route path="/Image_processing" element={<Image_processing />} />
                 </Routes>
             </div>
         </Router>

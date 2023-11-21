@@ -6,7 +6,7 @@ var fs = require("fs");
 var app = express();
 
 const corsOptions = {
-    origin: 'http://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
+    origin: 'http://localhost:8000', // 許可するオリジン
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可するHTTPメソッド
     credentials: true, // クッキーなどの認証情報をやりとりするかどうか
     optionsSuccessStatus: 204, // プリフライトリクエスト（OPTIONSメソッド）の成功時のステータスコード
