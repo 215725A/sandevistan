@@ -11,7 +11,7 @@ function Blog() {
 
     const fetchDB = async () => {
         try {
-            const response = await fetch('http://localhost:3000/users');
+            const response = await fetch('http://localhost:3000/api/users');
             if (response.ok) {
                 const result = await response.json();
                 setUsers(result);

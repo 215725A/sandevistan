@@ -46,11 +46,23 @@ var express = require("express");
      res.json(responseData);
  });
  
- app.get('/api/csv', (req, res) => {
-     const csvPath = '/usr/app/csv/R5_lectures.csv';
-     const csvContent = fs.readFileSync(csvPath, 'utf-8');
-     res.send(csvContent);
- });
+ ///app.get('/api/csv', (req, res) => {
+     ///const csvPath = '/usr/app/csv/R5_lectures.csv';
+     ///const csvContent = fs.readFileSync(csvPath, 'utf-8');
+     ///res.send(csvContent);
+ ///});
+
+ app.get('/info', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL!');
+
+        const result = await client.query('SELECT * FROM lectures');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error connecting PostgreSQL', err);
+    }
+});
  
  const PORT = process.env.PORT || 8000;
  
