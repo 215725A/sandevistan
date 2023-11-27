@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
  
      const fetchDB = async () => {
          try {
-             const response = await fetch('http://localhost:8000/info');
+             const response = await fetch('http://localhost:8000/api/data');
              if (response.ok) {
                  const result = await response.json();
                  setInfo(result);

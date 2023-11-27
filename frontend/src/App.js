@@ -11,7 +11,7 @@ function App() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/data');
+            const response = await fetch('http://localhost:3000/data');
             if (response.ok) {
                 const result = await response.json();
                 setData(result);

@@ -7,8 +7,7 @@ var express = require("express");
  
  const corsOptions = {
      // origin: 'http://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
-     origin: 'http://localhost:3000',
-     // もしダメそうなら、 origin: 'http://localhost:3000'に変更
+     origin: 'http://localhost:8000',
      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可するHTTPメソッド
      credentials: true, // クッキーなどの認証情報をやりとりするかどうか
      optionsSuccessStatus: 204, // プリフライトリクエスト（OPTIONSメソッド）の成功時のステータスコード
@@ -29,40 +28,28 @@ var express = require("express");
      res.send("Hello, world!");
  });
  
- app.get('/api/users', async (req, res) => {
+ app.get('/api/data', async (req, res) => {
      try {
          const client = await pool.connect();
          console.log('Connected to PostgreSQL!');
  
-         const result = await client.query('SELECT * FROM users');
+         const result = await client.query('SELECT * FROM user_info');
          res.json(result.rows);
      } catch (err) {
          console.error('Error connecting to PostgreSQL', err);
      }
  });
  
- app.get('/api/data', (req, res) => {
-     const responseData = 'This is the data from the backend!';
-     res.json(responseData);
- });
- 
- ///app.get('/api/csv', (req, res) => {
-     ///const csvPath = '/usr/app/csv/R5_lectures.csv';
-     ///const csvContent = fs.readFileSync(csvPath, 'utf-8');
-     ///res.send(csvContent);
+ ///app.get('/data', (req, res) => {
+     ///const responseData = 'This is the data from the backend!';
+     //res.json(responseData);
  ///});
-
- app.get('/info', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        console.log('Connected to PostgreSQL!');
-
-        const result = await client.query('SELECT * FROM lectures');
-        res.json(result.rows);
-    } catch (err) {
-        console.error('Error connecting PostgreSQL', err);
-    }
-});
+ 
+/// app.get('/csv', (req, res) => {
+    ///const csvPath = '/usr/app/csv/utf_add_2310.csv';
+    ///const csvContent = fs.readFileSync(csvPath, 'utf-8');
+    ///res.send(csvContent);
+//});
  
  const PORT = process.env.PORT || 8000;
  
