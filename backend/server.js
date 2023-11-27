@@ -6,7 +6,7 @@ var express = require("express");
  var app = express();
  
  const corsOptions = {
-     // origin: 'http://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
+     // origin: 'https://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
      origin: 'http://localhost:8000',
      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可するHTTPメソッド
      credentials: true, // クッキーなどの認証情報をやりとりするかどうか
@@ -54,5 +54,5 @@ var express = require("express");
  const PORT = process.env.PORT || 8000;
  
  var server = app.listen(PORT, function() {
-     console.log("Node.js is listening to PORT: " + server.address().port);
- });
+     console.log("Node.js is listening to PORT: " + server.address().port); });
+

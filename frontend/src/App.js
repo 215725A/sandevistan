@@ -11,7 +11,7 @@ function App() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:3000/data');
+            const response = await fetch('https://sandevistan.st.ie.u-ryukyu.ac.jp/api/data');
             if (response.ok) {
                 const result = await response.json();
                 setData(result);

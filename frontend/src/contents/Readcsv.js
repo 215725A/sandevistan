@@ -8,7 +8,7 @@ function ReadCSV() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://sandevistan.st.ie.u-ryukyu.ac.jp/api/csv');
+        const response = await fetch('https://sandevistan.st.ie.u-ryukyu.ac.jp/api/csv');
         const data = await response.text();
         setCsvContent(data);
       } catch (error) {

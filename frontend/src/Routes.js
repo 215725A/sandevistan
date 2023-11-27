@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
-// 追加
-import Pages from './contents/Pages';
-import CSVTest from './pages/Readcsv';
-// ここまで
+import ReadCSV from './contents/Readcsv';
+import Classes from './contents/Classes';
+import Network2 from './classes/Network2';
 
 function RoutesComponent() {
     return (
@@ -47,10 +46,8 @@ function RoutesComponent() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
-                    // 追加
-                    <Route path="/pages" element={<Pages />} />
-                    <Route path="/csvtest" element={<CSVTest />} />
-                    // ここまで
+                    <Route path="/csv" element={<ReadCSV />} />
+                    <Route path="/classes" element={<Classes />} />
                 </Routes>
             </div>
         </Router>
