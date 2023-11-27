@@ -33,8 +33,11 @@ services:
     build:
       context: ./nginx
     container_name: nginx
+    volumes:
+      - ./nginx/certs:/etc/nginx/certs
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - frontend
       - backend
