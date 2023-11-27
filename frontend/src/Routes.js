@@ -6,6 +6,7 @@ import About from './contents/About';
 import Blog from './contents/Blog';
 import ReadCSV from './contents/Readcsv';
 import Classes from './contents/Classes';
+import Network2 from './classes/Network2';
 
 function RoutesComponent() {
     return (
@@ -49,6 +50,7 @@ function RoutesComponent() {
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<ReadCSV />} />
                     <Route path="/classes" element={<Classes />} />
+                    <Route path='/network2' element={<Network2 />} />
                 </Routes>
             </div>
         </Router>
