@@ -27,6 +27,16 @@ CREATE TABLE IF NOT EXISTS user_info (
     per_code VARCHAR(10),
     etc VARCHAR(500)
 );
+<<<<<<< HEAD
+=======
+ DO $$
+ BEGIN
+     IF (SELECT COUNT(*) FROM user_info) = 0 THEN
+         COPY user_info FROM '/csv/R5_lectures.csv' DELIMITER ',' CSV HEADER;
+     END IF;
+ END $$;
+
+>>>>>>> 81225e91efd6202bb17a4450db2554c8fd98661c
 INSERT INTO users VALUES (
     1,
     'hoge',
