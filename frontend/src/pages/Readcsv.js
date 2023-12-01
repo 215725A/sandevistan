@@ -49,7 +49,7 @@ function CSVTest() {
 
     return (
         <div>
-            <h1>This is CSV test page.</h1>
+            <h1>知能情報の講義一覧です</h1>
 
             <StyledTable>
                 <thead>
