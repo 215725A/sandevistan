@@ -39,6 +39,7 @@ function Classes() {
           ))}
         </tbody>
       </table>
+      <a href='/network2'>ネットワーク2</a>
     </div>
   );
 }
