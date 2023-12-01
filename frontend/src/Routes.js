@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
-import ReadCSV from './contents/Readcsv';
-import Classes from './contents/Classes';
+import ReadCSV from './pages/Readcsv';
+//import Classes from './contents/Classes';
+//import Network2 from './classes/Network2';
 
 function RoutesComponent() {
     return (
@@ -28,9 +29,7 @@ function RoutesComponent() {
                                 <li className="nav-item">
                                     <Link to="/blog" className="nav-link">Blog</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link to="/classes" className="nav-link">Classes</Link>
-                                </li>
+
                                 <li className="nav-item">
                                     <Link to="/csv" className="nav-link">CSVTest</Link>
                                 </li>
@@ -48,7 +47,6 @@ function RoutesComponent() {
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<ReadCSV />} />
-                    <Route path="/classes" element={<Classes />} />
                 </Routes>
             </div>
         </Router>
