@@ -27,13 +27,6 @@ CREATE TABLE IF NOT EXISTS user_info (
     per_code VARCHAR(10),
     etc VARCHAR(500)
 );
- DO $$
- BEGIN
-     IF (SELECT COUNT(*) FROM user_info) = 0 THEN
-         COPY user_info FROM '/csv/R5_lectures.csv' DELIMITER ',' CSV HEADER;
-     END IF;
- END $$;
-
 INSERT INTO users VALUES (
     1,
     'hoge',
@@ -44,3 +37,9 @@ INSERT INTO users VALUES (
     'fuga',
     'fuga@example.com'
 );
+DO $$
+BEGIN
+     IF (SELECT COUNT(*) FROM user_info) = 0 THEN
+         COPY user_info FROM '/csv/R5_lectures.csv' DELIMITER ',' CSV HEADER;
+     END IF;
+END $$;
