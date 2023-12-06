@@ -68,6 +68,7 @@ function CSVTest() {
                         <Th>期間</Th>
                         <Th>許可コード</Th>
                         <Th>備考</Th>
+                        <Th>url</Th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +90,7 @@ function CSVTest() {
                             <ThTd>{inf.lecture_limit}</ThTd>
                             <ThTd>{inf.per_code}</ThTd>
                             <ThTd>{inf.etc}</ThTd>
+                            <ThTd>{inf.site_url}</ThTd>
                         </tr>
                     ))}
                 </tbody>

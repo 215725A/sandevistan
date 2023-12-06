@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS user_info (
     classroom VARCHAR(20),
     lecture_limit VARCHAR(10),
     per_code VARCHAR(10),
-    etc VARCHAR(500)
+    etc VARCHAR(500),
+    site_url VARCHAR(500)
 );
 INSERT INTO users VALUES (
     1,
