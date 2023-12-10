@@ -46,10 +46,16 @@ app.get('/data', (req, res) => {
     res.json(responseData);
 });
 
-app.get('/csv', (req, res) => {
-    const csvPath = '/usr/app/csv/utf_add_2310.csv';
-    const csvContent = fs.readFileSync(csvPath, 'utf-8');
-    res.send(csvContent);
+app.get('/csv', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL!');
+
+        const result = await client.query('SELECT * FROM user_info');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error connecting to PostgreSQL', err);
+    }
 });
 
 app.get('/getclass', async (req, res) => {
@@ -92,6 +98,18 @@ app.get('/getclass', async (req, res) => {
         console.error('Error fetching data from external server:', error.message);
         res.status(500).send('Internal Server Error');
       }
+});
+
+app.get('/info', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL!');
+
+        const result = await client.query('SELECT * FROM lectures');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error connecting PostgreSQL', err);
+    }
 });
 
 const PORT = process.env.PORT || 8000;
