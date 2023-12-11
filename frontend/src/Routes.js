@@ -9,6 +9,7 @@ import Classes from './contents/Classes';
 import Network1 from './classes/Network1';
 import Network2 from './classes/Network2';
 import Programming1 from './classes/Programming1';
+import Programming2 from './classes/Programming2';
 
 function RoutesComponent() {
     return (
@@ -52,6 +53,7 @@ function RoutesComponent() {
                     <Route path='/network2' element={<Network2 />} />
                     <Route path='/programming1' element={<Programming1 />} />
                     <Route path='/network1' element={<Network1 />} />
+                    <Route path='/prog2' element={<Programming2 />} />
                 </Routes>
             </div>
         </Router>
