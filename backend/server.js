@@ -35,6 +35,18 @@ app.get('/users', async (req, res) => {
         console.log("Connected to PostgreSQL");
 
         const result = await client.query('SELECT * FROM users');
+         res.json(result.rows);
+     } catch (err) {
+         console.error('Error connecting to PostgreSQL', err);
+     }
+ });
+
+ app.get('/csv', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL!');
+
+        const result = await client.query('SELECT * FROM user_info');
         res.json(result.rows);
     } catch (err) {
         console.error('Error connecting to PostgreSQL', err);
@@ -78,12 +90,6 @@ app.get('/getclass', async (req, res) => {
         // JavaScriptコードとCSSコードを削除
         // let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '').replace(inputPattern, '');
         let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '');
-
-        // 改行やタブを削除
-        // cleanedData = cleanedData.replace(/\s+/g, ' ');
-        // cleanedData = $('<table>').html(cleanedData).text();
-
-        // cleanedData = cleanedData.split(/\s+/);
         console.log(cleanedData);
 
         // 取得したデータをクライアントに返す
@@ -98,4 +104,16 @@ const PORT = process.env.PORT || 8000;
 
 var server = app.listen(PORT, function() {
     console.log("Node.js is listening to PORT: " + server.address().port);
+});
+
+ app.get('/info', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        console.log('Connected to PostgreSQL!');
+
+        const result = await client.query('SELECT * FROM lectures');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error connecting PostgreSQL', err);
+    }
 });

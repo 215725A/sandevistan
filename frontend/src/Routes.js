@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
-import ReadCSV from './contents/Readcsv';
+import ReadCSV from './pages/Readcsv';
 import Classes from './contents/Classes';
 import Network1 from './classes/Network1';
 import Network2 from './classes/Network2';
 import Programming1 from './classes/Programming1';
+import Programming2 from './classes/Programming2';
 
 function RoutesComponent() {
     return (
@@ -35,7 +36,7 @@ function RoutesComponent() {
                                     <Link to="/classes" className="nav-link">Classes</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/csv" className="nav-link">CSVTest</Link>
+                                    <Link to="/csv" className="nav-link">Lecture list</Link>
                                 </li>
                             </ul>
                             <form className="d-flex" role="search">
@@ -55,6 +56,7 @@ function RoutesComponent() {
                     <Route path='/network2' element={<Network2 />} />
                     <Route path='/programming1' element={<Programming1 />} />
                     <Route path='/network1' element={<Network1 />} />
+                    <Route path='/prog2' element={<Programming2 />} />
                 </Routes>
             </div>
         </Router>

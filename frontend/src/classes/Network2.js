@@ -150,17 +150,20 @@ const Network2 = () => {
 
                     <div className='tab-pane fade review' id='review' role='tabpanel'>
                         <h5 className='card-title'>Review</h5>
-                        <p>This is review tab.</p>
+                        <p>星5 すごく面白い</p>
                     </div>
 
                     <div className='tab-pane fade memo' id='memo' role='tabpanel'>
                         <h5 className='card-title'>Memo</h5>
-                        <p>This is memo tab.</p>
+                        <p>きょう学んだこと</p>
+                        <p></p>
                     </div>
 
                     <div className='tab-pane fade qa' id='qa' role='tabpanel'>
                         <h5 className='card-title'>Q&A</h5>
-                        <p>This is Q&A tab.</p>
+                        <p>Q この講義はおすすめですか</p>
+                        <p>A すごく難しいですが、おもしろいです^^</p>
+
                     </div>
 
                 </div>
