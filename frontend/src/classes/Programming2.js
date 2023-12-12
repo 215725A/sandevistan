@@ -79,14 +79,19 @@ const Programming2 = () => {
                         </span>
 
                         <div>
-                            <input
-                                type='text'
-                                placeholder='評価(5, 4, 3, 2, 1)'
-                                value={draftReviews[0]}
-                                onChange={(event) => {
-                                    reviewsChange(0, event.target.value)
-                                }}
-                            ></input>
+                        <select
+                            value={draftReviews[0]}
+                            onChange={(event) => {
+                                reviewsChange(0, event.target.value);
+                            }}
+                        >
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+
                             <input
                                 type='text'
                                 placeholder='この講義は楽しい, この教授の授業はわかりやすい, etc'
