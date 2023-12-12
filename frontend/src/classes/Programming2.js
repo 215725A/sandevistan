@@ -85,6 +85,7 @@ const Programming2 = () => {
                                 reviewsChange(0, event.target.value);
                             }}
                         >
+                            <option value="評価段階">評価段階</option>
                             <option value="5">5</option>
                             <option value="4">4</option>
                             <option value="3">3</option>
