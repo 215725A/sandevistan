@@ -37,7 +37,7 @@ function CSVTest() {
 
     const fetchDB = async () => {
         try {
-            const response = await fetch('https://sandevistan.st.ie.u-ryukyu.ac.jp/api/csv');
+            const response = await fetch('http://localhost:8000/api/csv');
             if (response.ok) {
                 const result = await response.json();
                 setInfo(result);
