@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Programming2 = () => {
+const Lecture = () => {
     const [syllabus, setSyllabus] = useState(null);
-    const [draftReviews, setDraftReviews] = useState(['', '']);
+    const [draftReviews, setDraftReviews] = useState({ rating: '', content: '' });
     const [reviews, setReviews] = useState([]);
+
+    const { className } = useParams();
+    console.log(className);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const lct_year = 2023;
-                const lct_cd = 610011072;
-                const je_cd = 1;
+                const lectures_info = await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/getclassinfo?class=${className}`);
+                const lectures_data = await lectures_info.json();
+                const lct_year = lectures_data[0].lct_year;
+                const lct_cd = lectures_data[0].lct_cd;
+                const je_cd = lectures_data[0].je_cd;
 
                 const response = await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/getclass?lct_year=${lct_year}&lct_cd=${lct_cd}&je_cd=${je_cd}`);
                 const data = await response.text();
@@ -21,24 +27,37 @@ const Programming2 = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [className]);
 
-    const saveReview = () => {
-        setReviews(prevReviews => [...prevReviews, [...draftReviews]]);
-        setDraftReviews(['', '']);
+    const saveReview = async () => {
+        console.log(JSON.stringify(draftReviews));
+        try {
+            await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/reviews?class=${className}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(draftReviews),
+            });
+
+            fetchReviews();
+
+            setDraftReviews({ rating: '', content: '' });
+        } catch (error) {
+            console.error('Error saving review: ', error);
+        }
     };
 
-    const reviewsChange = (index, value) => {
-        setDraftReviews(prevReviews => {
-            const newPreviews = [...prevReviews];
-            newPreviews[index] = value;
-            return newPreviews;
-        });
+    const fetchReviews = async () => {
+        try {
+            const response = await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/reviews?class=${className}`);
+            const data = await response.json();
+            console.log(data);
+            setReviews(data);
+        } catch (error) { 
+            console.error('Error fetching reviews: ', error);
+        }
     };
-
-    useEffect(() => {
-        console.log('Reviews:', reviews);
-    }, [reviews]);
 
     return (
         <div className='col-xl-8'>
@@ -72,27 +91,30 @@ const Programming2 = () => {
                         <span>
                         {reviews.map((values, index) => (
                             <div key={index}>
-                            <span>評価: {values[0]}</span> <br />
-                            <span>評価内容: {values[1]}</span>
+                            <span>評価: {values.star}</span> <br />
+                            <span>評価内容: {values.review}</span>
                             </div>
                         ))}
                         </span>
 
                         <div>
-                            <input
-                                type='text'
-                                placeholder='評価(5, 4, 3, 2, 1)'
-                                value={draftReviews[0]}
-                                onChange={(event) => {
-                                    reviewsChange(0, event.target.value)
-                                }}
-                            ></input>
+                            <select 
+                                value={draftReviews.rating}
+                                onChange={(event) => setDraftReviews({ ...draftReviews, rating: event.target.value })}
+                            >
+                                <option value={''}>評価を選択</option>
+                                <option value={'5'}>5</option>
+                                <option value={'4'}>4</option>
+                                <option value={'3'}>3</option>
+                                <option value={'2'}>2</option>
+                                <option value={'1'}>1</option>
+                            </select>
                             <input
                                 type='text'
                                 placeholder='この講義は楽しい, この教授の授業はわかりやすい, etc'
-                                value={draftReviews[1]}
+                                value={draftReviews.content}
                                 onChange={(event) => {
-                                    reviewsChange(1, event.target.value)
+                                    setDraftReviews({ ...draftReviews, content: event.target.value })
                                 }}
                             ></input>
                             <button
@@ -118,4 +140,4 @@ const Programming2 = () => {
     );
 }
 
-export default Programming2;
+export default Lecture;

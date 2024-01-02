@@ -35,6 +35,8 @@ services:
     container_name: nginx
     volumes:
       - ./nginx/certs:/etc/nginx/certs
+    env_file:
+      - .env
     ports:
       - 80:80
       - 443:443

@@ -83,7 +83,7 @@ function CSVTest() {
                         <tr key={index}>
                             <ThTd>{inf.lecture_num2}</ThTd>
                             <ThTd>
-                                <a href={inf.site_url} onClick={() => handleNavigate(inf.site_url)}>{inf.lecuture_name}</a>
+                                <a href={"/lecture"} onClick={(e) => { e.preventDefault(); handleNavigate(`/lecture${inf.site_url}`)} }>{inf.lecuture_name}</a>
                             </ThTd>
                             <ThTd>{inf.unit}</ThTd>
                             <ThTd>{inf.week_time}</ThTd>
