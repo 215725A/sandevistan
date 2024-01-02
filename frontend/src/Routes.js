@@ -5,11 +5,7 @@ import Home from './contents/Home';
 import About from './contents/About';
 import Blog from './contents/Blog';
 import CSVTest from './pages/Readcsv';
-import Classes from './contents/Classes';
-import Network1 from './classes/Network1';
-import Network2 from './classes/Network2';
-import Programming1 from './classes/Programming1';
-import Programming2 from './classes/Programming2';
+import Lecture from './classes/Lecture';
 
 function RoutesComponent() {
     return (
@@ -30,16 +26,9 @@ function RoutesComponent() {
                                     <Link to="/about" className="nav-link">About</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/classes" className="nav-link">Classes</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link to="/csv" className="nav-link">Lecture list</Link>
                                 </li>
                             </ul>
-                            <form className="d-flex" role="search">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" type="submit">Search</button>
-                            </form>
                         </div>
                     </div>
                 </nav>
@@ -49,11 +38,7 @@ function RoutesComponent() {
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<CSVTest />} />
-                    <Route path="/classes" element={<Classes />} />
-                    <Route path='/network2' element={<Network2 />} />
-                    <Route path='/programming1' element={<Programming1 />} />
-                    <Route path='/network1' element={<Network1 />} />
-                    <Route path='/prog2' element={<Programming2 />} />
+                    <Route path='/lecture/:className' element={<Lecture key={"classtest"} />} />
                 </Routes>
             </div>
         </Router>

@@ -2,3 +2,4 @@ node_modules/
 build/
 certs/
 .DS_store
+.env

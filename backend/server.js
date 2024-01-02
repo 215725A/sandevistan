@@ -1,7 +1,6 @@
 var express = require("express");
 var { Pool } = require("pg");
 var cors = require("cors");
-var fs = require("fs");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -16,6 +15,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
 
 const pool = new Pool({
     user: 'author',
@@ -25,16 +25,53 @@ const pool = new Pool({
     port: 5432,
 });
 
+const review_pool = new Pool({
+    user: 'author',
+    host: '10.0.5.203',
+    database: 'reviews',
+    password: 'password',
+    port: 5432,
+});
+
+const lectures_pool = new Pool({
+    user: 'author',
+    host: '10.0.5.216',
+    database: 'lectures',
+    password: 'password',
+    port: 5432,
+});
+
+pool.connect((err, client, done) => {
+    if (err) {
+        console.error('Error connecting to database', err.stack);
+    }
+    console.log('Connected to database');
+    done(); // クライアントを解放する
+});
+
+review_pool.connect((err, client, done) => {
+    if (err) {
+        console.error('Error connecting to database', err.stack);
+    }
+    console.log('Connected to database');
+    done();
+});
+
+lectures_pool.connect((err, client, done) => {
+    if (err) {
+        console.error('Error connecting to database', err.stack);
+    }
+    console.log('Connected to database');
+    done();
+});
+
 app.get("/", function(req, res, next) {
     res.send("Hello, world!");
 });
 
 app.get('/users', async (req, res) => {
     try {
-        const client = await pool.connect();
-        console.log("Connected to PostgreSQL");
-
-        const result = await client.query('SELECT * FROM users');
+        const result = await pool.query('SELECT * FROM users');
          res.json(result.rows);
      } catch (err) {
          console.error('Error connecting to PostgreSQL', err);
@@ -43,10 +80,7 @@ app.get('/users', async (req, res) => {
 
  app.get('/csv', async (req, res) => {
     try {
-        const client = await pool.connect();
-        console.log('Connected to PostgreSQL!');
-
-        const result = await client.query('SELECT * FROM user_info');
+        const result = await pool.query('SELECT * FROM user_info');
         res.json(result.rows);
     } catch (err) {
         console.error('Error connecting to PostgreSQL', err);
@@ -56,18 +90,6 @@ app.get('/users', async (req, res) => {
 app.get('/data', (req, res) => {
     const responseData = 'This is the data from the backend!';
     res.json(responseData);
-});
-
-app.get('/csv', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        console.log('Connected to PostgreSQL!');
-
-        const result = await client.query('SELECT * FROM user_info');
-        res.json(result.rows);
-    } catch (err) {
-        console.error('Error connecting to PostgreSQL', err);
-    }
 });
 
 app.get('/getclass', async (req, res) => {
@@ -96,7 +118,6 @@ app.get('/getclass', async (req, res) => {
         // JavaScriptコードとCSSコードを削除
         // let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '').replace(inputPattern, '');
         let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '');
-        console.log(cleanedData);
 
         // 取得したデータをクライアントに返す
         res.send(cleanedData);
@@ -108,30 +129,50 @@ app.get('/getclass', async (req, res) => {
 
 app.get('/info', async (req, res) => {
     try {
-        const client = await pool.connect();
-        console.log('Connected to PostgreSQL!');
-
-        const result = await client.query('SELECT * FROM lectures');
+        const result = await pool.query('SELECT * FROM lectures');
         res.json(result.rows);
     } catch (err) {
         console.error('Error connecting PostgreSQL', err);
+    }
+});
+
+app.get('/reviews', async (req, res) => {
+    try {
+        const class_name = req.query.class;
+
+        const result = await review_pool.query(`SELECT * FROM ${class_name}`);
+        res.json(result.rows);
+    } catch(err) {
+        console.log('Error connectiong PostgreSQL', err);
+    }
+});
+
+app.post('/reviews', async (req, res) => {
+    try {
+        const class_name = req.query.class;
+        const { rating, content } = req.body;
+
+        const result = await review_pool.query(`INSERT INTO ${class_name} (star, review) VALUES ($1, $2) RETURNING *`, [rating, content]);
+        res.json(result);
+    } catch (error) {
+        console.error('Error saving review:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get("/getclassinfo", async (req, res) => {
+    try {
+        const class_name = req.query.class;
+
+        const result = await lectures_pool.query(`SELECT lct_year, lct_cd, je_cd FROM lectures WHERE class_name = '${class_name}'`);
+        res.json(result.rows);
+    } catch(err) {
+        console.log('Error connecting PostgreSQL', err);
     }
 });
 
 const PORT = process.env.PORT || 8000;
 
-var server = app.listen(PORT, function() {
+const server = app.listen(PORT, function() {
     console.log("Node.js is listening to PORT: " + server.address().port);
-});
-
- app.get('/info', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        console.log('Connected to PostgreSQL!');
-
-        const result = await client.query('SELECT * FROM lectures');
-        res.json(result.rows);
-    } catch (err) {
-        console.error('Error connecting PostgreSQL', err);
-    }
 });
