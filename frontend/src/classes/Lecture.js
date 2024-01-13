@@ -5,9 +5,10 @@ const Lecture = () => {
     const [syllabus, setSyllabus] = useState(null);
     const [draftReviews, setDraftReviews] = useState({ rating: '', content: '' });
     const [reviews, setReviews] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [draftFile, setDraftFile] = useState(null);
 
     const { className } = useParams();
-    console.log(className);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +29,20 @@ const Lecture = () => {
         };
         fetchData();
     }, [className]);
+
+    useEffect(() => {
+        const fetchFiles = async () => {
+            try {
+                const response = await fetch(`https://files.st.ie.u-ryukyu.ac.jp/files?fileTag=${className}`);
+                const data = await response.json();
+                setFiles(data.files);
+            } catch (err) {
+                console.error('Error fetching files', err);
+            }
+        };
+
+        fetchFiles();
+    }, []);
 
     const saveReview = async () => {
         console.log(JSON.stringify(draftReviews));
@@ -59,6 +74,44 @@ const Lecture = () => {
         }
     };
 
+    const handleFileChange = (e) => {
+        setDraftFile(e.target.files[0]);
+    };
+
+    const handleFileUpload = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('file', draftFile);
+      
+            await fetch(`https://files.st.ie.u-ryukyu.ac.jp/uploads?fileTag=${className}`, {
+              method: 'POST',
+              body: formData,
+            });
+      
+            alert('File uploaded successfully');
+        } catch(error) {
+            console.error('Error uploading file', error);
+        }
+    };
+
+    const handleFileDownload = async (fileName) => {
+        try {
+            const response = await fetch(`https://files.st.ie.u-ryukyu.ac.jp/download/${className}/${fileName}`);
+            const blob = await response.blob();
+
+            // Create a download link and trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = fileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        } catch (error) {
+            console.error('Error downloading file', error);
+        }
+
+    };
+
     return (
         <div className='col-xl-8'>
             <div className='card'>
@@ -79,11 +132,10 @@ const Lecture = () => {
                     </ul>
                 </div>
 
-                <div className='tab-content pt-2'>
-                    
+                <div className='tab-content pt-2 main-content'>
                     <div className='tab-pane fade syllabus active show' id='syllabus' role='tabpanel'>
                         <h5 className='card-title'>Syllabus</h5>
-                        <div dangerouslySetInnerHTML={{ __html: syllabus }} />
+                        <div className='syllabus-info' dangerouslySetInnerHTML={{ __html: syllabus }} />
                     </div>
 
                     <div className='tab-pane fade review' id='review' role='tabpanel'>
@@ -125,14 +177,26 @@ const Lecture = () => {
 
                     <div className='tab-pane fade memo' id='memo' role='tabpanel'>
                         <h5 className='card-title'>Memo</h5>
-                        <p>This is memo tab.</p>
+                        <ul>
+                            {files && files.map((file, index) => (
+                                <li key={index}> 
+                                    <button onClick={() => handleFileDownload(file)}>
+                                        {file}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div>
+                            <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpeg,.jpg,.png,.txt" onChange={handleFileChange} />
+                            <button onClick={handleFileUpload}>Upload</button>
+                        </div>
                     </div>
 
                     <div className='tab-pane fade qa' id='qa' role='tabpanel'>
                         <h5 className='card-title'>Q&A</h5>
                         <p>This is Q&A tab.</p>
                     </div>
-
                 </div>
 
             </div>

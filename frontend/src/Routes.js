@@ -38,7 +38,7 @@ function RoutesComponent() {
                     <Route path="/about" element={<About />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/csv" element={<CSVTest />} />
-                    <Route path='/lecture/:className' element={<Lecture key={"classtest"} />} />
+                    <Route path='/lecture/:className' element={<Lecture key={"lecture"} />} />
                 </Routes>
             </div>
         </Router>

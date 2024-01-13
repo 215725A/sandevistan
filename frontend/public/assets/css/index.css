@@ -13,3 +13,8 @@ footer {
     bottom: 0;
     padding: 20px 0;
 }
+
+table {
+    border: 0.5px black solid;
+    background-color: #ffffff !important;
+}
