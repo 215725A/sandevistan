@@ -1,0 +1,8 @@
+.main-content {
+    display: table;
+    width: 100%;
+}
+
+#ctl00_phContents_Detail_Table1 {
+    width: 90% !important;
+}

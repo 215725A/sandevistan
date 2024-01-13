@@ -7,7 +7,7 @@ var cheerio = require("cheerio");
 var app = express();
 
 const corsOptions = {
-    origin: 'https://sandevistan.st.ie.u-ryukyu.ac.jp', // 許可するオリジン
+    origin: '*', // 許可するオリジン
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 許可するHTTPメソッド
     credentials: true, // クッキーなどの認証情報をやりとりするかどうか
     optionsSuccessStatus: 204, // プリフライトリクエスト（OPTIONSメソッド）の成功時のステータスコード
@@ -107,7 +107,7 @@ app.get('/getclass', async (req, res) => {
 
 
         const $ = cheerio.load(responseData);
-        const desireData = $('#ctl00_container table').html();
+        const desireData = $('#tblPortal table').html();
 
         // JavaScriptコードとCSSコードを削除する正規表現パターン
         const jsPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
@@ -117,7 +117,7 @@ app.get('/getclass', async (req, res) => {
 
         // JavaScriptコードとCSSコードを削除
         // let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '').replace(inputPattern, '');
-        let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '');
+        let cleanedData = desireData.replace(jsPattern, '').replace(cssPattern, '').replace(imgPattern, '').replace(inputPattern, '');
 
         // 取得したデータをクライアントに返す
         res.send(cleanedData);
