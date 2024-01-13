@@ -31,18 +31,12 @@ const Lecture = () => {
     }, [className]);
 
     useEffect(() => {
-        const fetchFiles = async () => {
-            try {
-                const response = await fetch(`https://files.st.ie.u-ryukyu.ac.jp/files?fileTag=${className}`);
-                const data = await response.json();
-                setFiles(data.files);
-            } catch (err) {
-                console.error('Error fetching files', err);
-            }
-        };
+        fetchReviews();
+    }, [className]);
 
+    useEffect(() => {
         fetchFiles();
-    }, []);
+    }, [className]);
 
     const saveReview = async () => {
         console.log(JSON.stringify(draftReviews));
@@ -71,6 +65,16 @@ const Lecture = () => {
             setReviews(data);
         } catch (error) { 
             console.error('Error fetching reviews: ', error);
+        }
+    };
+
+    const fetchFiles = async () => {
+        try {
+            const response = await fetch(`https://files.st.ie.u-ryukyu.ac.jp/files?fileTag=${className}`);
+            const data = await response.json();
+            setFiles(data.files);
+        } catch (err) {
+            console.error('Error fetching files', err);
         }
     };
 
@@ -171,6 +175,7 @@ const Lecture = () => {
                             ></input>
                             <button
                                 onClick={() => saveReview()}
+                                disabled={!draftReviews.rating || !draftReviews.content}
                             >投稿する</button>
                         </div>
                     </div>
