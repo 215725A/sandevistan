@@ -49,6 +49,14 @@ function CSVTest() {
         }
     };
 
+    const getClassForDataItem = (item) => {
+        if (item.must == '必') {
+            return "must";
+        } else {
+            return "select";
+        }
+    };
+
     const handleNavigate = (route) => {
         console.log('Go to: ', route);
         navigate(route);
@@ -87,7 +95,7 @@ function CSVTest() {
                             </ThTd>
                             <ThTd>{inf.unit}</ThTd>
                             <ThTd>{inf.week_time}</ThTd>
-                            <ThTd>{inf.must}</ThTd>
+                            <ThTd className={getClassForDataItem(inf)}>{inf.must}</ThTd>
                             <ThTd>{inf.teacher}</ThTd>
                             <ThTd>{inf.member}</ThTd>
                             <ThTd>{inf.scl_year}</ThTd>

@@ -93,6 +93,7 @@ const Lecture = () => {
             });
       
             alert('File uploaded successfully');
+            fetchFiles();
         } catch(error) {
             console.error('Error uploading file', error);
         }

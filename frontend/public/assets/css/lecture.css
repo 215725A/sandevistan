@@ -6,3 +6,11 @@
 #ctl00_phContents_Detail_Table1 {
     width: 90% !important;
 }
+
+.must {
+    color: red;
+}
+
+.select {
+    color: blue;
+}
