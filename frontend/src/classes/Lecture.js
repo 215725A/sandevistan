@@ -219,6 +219,7 @@ const Lecture = () => {
                     required
                 />
                 <button onClick={() => handleAnswer(questionID)}>Answer</button>
+                <hr />
                 </div>
             );
             qaTree.push(questionItem);
@@ -325,9 +326,9 @@ const Lecture = () => {
                             />
                             <button onClick={handleAsk}>Ask</button>
                         </div>
+                
                     </div>
                 </div>
-
             </div>
         </div>
     );
