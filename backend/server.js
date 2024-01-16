@@ -171,6 +171,74 @@ app.get("/getclassinfo", async (req, res) => {
     }
 });
 
+app.get("/qa", async (req, res) => {
+    const class_name = req.query.class;
+    try {
+        const result = await lectures_pool.query(`
+        SELECT q.id AS question_id, q.question_text, a.id AS answer_id, a.answer_text
+        FROM questions q
+        LEFT JOIN answer a ON q.id = a.question_id
+        WHERE q.class_name = $1
+        `, [class_name]);
+
+        const qaData = [];
+        const questionsMap = new Map();
+
+        // Organize the result into a structured format for easy rendering
+        result.rows.forEach((row) => {
+            if (!questionsMap.has(row.question_id)) {
+                questionsMap.set(row.question_id, {
+                    question: {
+                        id: row.question_id,
+                        question_text: row.question_text,
+                    },
+                    answers: [],
+                });
+            }
+
+            if (row.answer_id) {
+                questionsMap.get(row.question_id).answers.push({
+                    id: row.answer_id,
+                    answer_text: row.answer_text,
+                });
+            }
+        });
+
+        questionsMap.forEach((value) => {
+            qaData.push(value);
+        });
+
+        console.log(qaData);
+        
+        res.json(qaData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/question', async (req, res) => {
+    const { class_name, question_text } = req.body;
+    try {
+      await lectures_pool.query('INSERT INTO questions (class_name, question_text) VALUES ($1, $2)', [class_name, question_text]);
+      res.json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/answers', async (req, res) => {
+    const { questionID, answer_text } = req.body;
+    try {
+      await lectures_pool.query('INSERT INTO answer (question_id, answer_text) VALUES ($1, $2)', [questionID, answer_text]);
+      res.json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+});  
+
 const PORT = process.env.PORT || 8000;
 
 const server = app.listen(PORT, function() {
