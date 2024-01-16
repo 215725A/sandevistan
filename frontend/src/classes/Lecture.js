@@ -7,6 +7,9 @@ const Lecture = () => {
     const [reviews, setReviews] = useState([]);
     const [files, setFiles] = useState([]);
     const [draftFile, setDraftFile] = useState(null);
+    const [newQuestion, setNewQuestion] = useState('');
+    const [qaData, setQaData] = useState([]);
+    const [answerState, setAnswerState] = useState({});
 
     const { className } = useParams();
 
@@ -38,8 +41,13 @@ const Lecture = () => {
         fetchFiles();
     }, [className]);
 
+    useEffect(() => {
+        fetchQA();
+    }, [className]);     
+
+
+
     const saveReview = async () => {
-        console.log(JSON.stringify(draftReviews));
         try {
             await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/reviews?class=${className}`, {
                 method: 'POST',
@@ -61,7 +69,6 @@ const Lecture = () => {
         try {
             const response = await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/reviews?class=${className}`);
             const data = await response.json();
-            console.log(data);
             setReviews(data);
         } catch (error) { 
             console.error('Error fetching reviews: ', error);
@@ -77,6 +84,30 @@ const Lecture = () => {
             console.error('Error fetching files', err);
         }
     };
+
+    const fetchQA = async () => {
+        try {
+            const response = await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/qa?class=${className}`);
+            const data = await response.json();
+            
+            const processedData = data.map(qa => {
+                const questionId = qa.question.id;
+                const answersWithQuestionId = qa.answers.map(answer => ({
+                    ...answer,
+                    questionId,  // 回答に question_id を追加
+                }));
+                return {
+                    ...qa,
+                    answers: answersWithQuestionId,
+                };
+            });
+    
+            setQaData(processedData);
+        } catch (err) {
+            console.error('Error fetching qa: ', err);
+        }
+    };
+
 
     const handleFileChange = (e) => {
         setDraftFile(e.target.files[0]);
@@ -115,6 +146,84 @@ const Lecture = () => {
             console.error('Error downloading file', error);
         }
 
+    };
+
+    const handleAsk = async () => {
+        if (newQuestion.trim() === '') return;
+
+        try {
+            await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/question?class=${className}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ class_name: className, question_text: newQuestion }),
+            });
+
+            fetchQA();
+            setNewQuestion('');
+        } catch (err) {
+            console.error('Error send question: ', err);
+        }
+    };
+
+    const handleAnswer = async (questionID, e) => {
+        const answer = answerState[questionID];
+
+        try {
+            await fetch(`https://sandevistan.st.ie.u-ryukyu.ac.jp/api/answers?class=${className}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ questionID: questionID, answer_text: answer }),
+            });
+
+            setAnswerState(prevState => ({
+                ...prevState,
+                [questionID]: '',
+            }));
+
+            fetchQA();
+
+        } catch (err) {
+            console.error('Error send answer: ', err);
+        }
+    };
+
+
+    const renderQATree = () => {
+        const qaTree = [];
+        qaData.forEach((qa) => {
+            const questionID = qa.question.id;
+            const questionAnswer = answerState[questionID] || '';
+
+            const questionItem = (
+                <div key={questionID}>
+                <p>質問: {qa.question.question_text}</p>
+                回答: 
+                <ul>
+                    {qa.answers && qa.answers.map((answer) => (
+                        <li key={answer.id}>{answer.answer_text}</li>
+                    ))}
+                </ul>
+                <textarea
+                    value={questionAnswer}
+                    onChange={(e) => {
+                        setAnswerState(prevState => ({
+                            ...prevState,
+                            [questionID]: e.target.value,
+                        }));
+                    }}
+                    placeholder="Type your answer..."
+                    required
+                />
+                <button onClick={() => handleAnswer(questionID)}>Answer</button>
+                </div>
+            );
+            qaTree.push(questionItem);
+        });
+        return qaTree;
     };
 
     return (
@@ -202,6 +311,20 @@ const Lecture = () => {
                     <div className='tab-pane fade qa' id='qa' role='tabpanel'>
                         <h5 className='card-title'>Q&A</h5>
                         <p>This is Q&A tab.</p>
+                        <div>
+                            {renderQATree()}
+                        </div>
+                        <div>
+                            質問: 
+                            <input
+                            type="text"
+                            value={newQuestion}
+                            onChange={(e) => setNewQuestion(e.target.value)}
+                            placeholder="Ask a question..."
+                            required
+                            />
+                            <button onClick={handleAsk}>Ask</button>
+                        </div>
                     </div>
                 </div>
 
