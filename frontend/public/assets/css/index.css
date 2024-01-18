@@ -12,9 +12,26 @@ footer {
     width: 100%;
     bottom: 0;
     padding: 20px 0;
+    background-color: rgb(255, 255, 255);
+    color: rgb(86, 89, 89);
 }
 
 table {
     border: 0.5px black solid;
-    background-color: #ffffff !important;
+    background-color: #f4f2ed !important;
+}
+
+nav {
+    background-color: rgb(255, 255, 255);
+}
+
+button.btn-border {
+    border: 2px solid #000;
+    border-radius: 0;
+    background: #fff;
+}
+
+button.btn-border:hover {
+    color: #fff;
+    background: #000;
 }

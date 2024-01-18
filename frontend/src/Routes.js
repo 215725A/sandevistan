@@ -11,7 +11,7 @@ function RoutesComponent() {
     return (
         <Router>
             <div>
-            <nav className="navbar navbar-expand-lg" style={{ backgroundColor: 'rgb(55, 79, 73)'}}>
+                <nav className="navbar navbar-expand-lg bg-body-tertiary">  
                     <div className="container-fluid">
                         <Link to="/" className="navbar-brand">Sandevistan</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#home" aria-expanded="false" aria-label="Toggle navigation">

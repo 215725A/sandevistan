@@ -218,7 +218,9 @@ const Lecture = () => {
                     placeholder="Type your answer..."
                     required
                 />
-                <button onClick={() => handleAnswer(questionID)}>Answer</button>
+                <button 
+                    className = "btn-border" 
+                    onClick={() => handleAnswer(questionID)}>Answer</button>
                 <hr />
                 </div>
             );
@@ -285,6 +287,7 @@ const Lecture = () => {
                                 }}
                             ></input>
                             <button
+                                className = "btn-border" 
                                 onClick={() => saveReview()}
                                 disabled={!draftReviews.rating || !draftReviews.content}
                             >投稿する</button>
@@ -296,7 +299,7 @@ const Lecture = () => {
                         <ul>
                             {files && files.map((file, index) => (
                                 <li key={index}> 
-                                    <button onClick={() => handleFileDownload(file)}>
+                                    <button  className = "btn-border" onClick={() => handleFileDownload(file)}>
                                         {file}
                                     </button>
                                 </li>
@@ -305,13 +308,13 @@ const Lecture = () => {
 
                         <div>
                             <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpeg,.jpg,.png,.txt" onChange={handleFileChange} />
-                            <button onClick={handleFileUpload}>Upload</button>
+                            <button className = "btn-border" onClick={handleFileUpload}>Upload</button>
                         </div>
                     </div>
 
                     <div className='tab-pane fade qa' id='qa' role='tabpanel'>
                         <h5 className='card-title'>Q&A</h5>
-                        <p>This is Q&A tab.</p>
+                        <p>受講生に質問してみましょう.</p>
                         <div>
                             {renderQATree()}
                         </div>
@@ -324,7 +327,7 @@ const Lecture = () => {
                             placeholder="Ask a question..."
                             required
                             />
-                            <button onClick={handleAsk}>Ask</button>
+                            <button className = "btn-border" onClick={handleAsk}>Ask</button>
                         </div>
                 
                     </div>
