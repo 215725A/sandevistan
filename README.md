@@ -111,9 +111,14 @@ Dockerの構成
 3. `docker-compose up --build -d`
 
 ## トラブルシューティング
-※SSl化する上で必要な認証鍵をgithubにあげていません
+※SSl化する上で必要な認証鍵をgithubにあげていません  
+[Let's encrypt](https://letsencrypt.org/ja/)を利用して証明書を発行するか、オレオレ証明書(非推奨)を使ってください
 
-※`docker-compose up --build -d`をする前にnginx直下に.envファイルを作成してください
+※`docker-compose up --build -d`をする前にsandevistanディレクトリ直下に.envファイルを作成し、
+```
+WDS_SOCKET_PORT=0
+```
+を書き込んでください
 
-※このプロジェクトはVM上で動くことを想定しています。
-この作業をした後に、`vmのipアドレス`にアクセスすると見れると思う。
+※このプロジェクトはVMで建てたサーバーと通信を行うため、通信先のサーバーが落ちているとうまく動作しません  
+Dockerが立ち上がっているなら、[http://localhost:3000](http://localhost:3000)にアクセスできると思います
