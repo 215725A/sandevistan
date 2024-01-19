@@ -23,8 +23,8 @@
 4. [開発環境構築](#開発環境構築)
 5. [トラブルシューティング](#トラブルシューティング)
 
-
-## プロジェクト名
+## プロジェクトについて
+### プロジェクト名
 講義の課題やテスト勉強に行き詰まっている
 大学1・2年生向けの
 Sandevistanというプロダクトは
@@ -103,7 +103,7 @@ Dockerの構成
     │   └── privkey.pem<br>
     └── nginx.conf<br>
 
-## 開発環境構成
+## 開発環境構築
 ### 動作確認
 1. `git clone git@github.com:215725A/sandevistan.git` or  
    `git clone https://github.com/215725A/sandevistan.git`
